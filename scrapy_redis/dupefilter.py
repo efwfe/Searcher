@@ -7,7 +7,6 @@ from utils.bloomfilter import RedisBloomFilter
 from . import defaults
 from .connection import get_redis_from_settings
 
-
 logger = logging.getLogger(__name__)
 
 
