@@ -89,7 +89,7 @@ ROBOTSTXT_OBEY = True
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 BOT_NAME = "crawler"
-
+REDIS_SIMHASH_KEY = "%(spider)s:simhash_set"
 SPIDER_MODULES =['crawler.spiders']
 NEWSPIDER_MODULE = 'crawler.spiders'
 
