@@ -1,5 +1,7 @@
 import time
-
+import sys
+sys.path.append("../../")
+sys.path.append("../../..")
 from crawler.items import CommonItem
 from scrapy.contrib.linkextractors.lxmlhtml import LxmlLinkExtractor
 from scrapy.spiders import Rule
@@ -15,7 +17,7 @@ class SimpleCrawler(RedisCrawlSpider):
     name = "simple_crawler"
 
     rules = (
-        Rule(LxmlLinkExtractor(), callback='parse_page', follow=True)
+        Rule(LxmlLinkExtractor(), callback='parse_page', follow=True),
     )
 
     def __init__(self, *args, **kwargs):
