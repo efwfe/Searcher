@@ -15,3 +15,4 @@ class CrawlerItem(scrapy.Item):
     url = scrapy.Field()
     links = scrapy.Field()
     link_texts = scrapy.Field()
+    simhash = scrapy.Field() # simhash code ,depend on title description keywords and link texts
