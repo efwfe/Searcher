@@ -8,11 +8,12 @@
 import scrapy
 
 
-class CrawlerItem(scrapy.Item):
+class CommonItem(scrapy.Item):
     title = scrapy.Field()
     description = scrapy.Field()
     keywords = scrapy.Fielf()
+    p_texts = scrapy.Field()
     url = scrapy.Field()
-    links = scrapy.Field()
-    link_texts = scrapy.Field()
+    crawled_timestamp = scrapy.Field() # Timestamp of crawl the current page
+    links = scrapy.Field() # link list wich each element include URL
     simhash = scrapy.Field() # simhash code ,depend on title description keywords and link texts
