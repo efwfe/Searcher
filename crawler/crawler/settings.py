@@ -95,6 +95,7 @@ NEWSPIDER_MODULE = 'crawler.spiders'
 
 ROBOTSTXT_OBEY = True
 ITEM_PIPELINES = {
+    'crawler.pipelines.DuplicatesPipeline':200,
     'crawler.pipelines.MongodbPipeline' : 300
 }
 

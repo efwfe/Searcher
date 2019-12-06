@@ -6,6 +6,8 @@
 # See: https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 import pymongo
 from twisted.internet.threads import deferToThread
+from scrapy.exceptions import DropItem
+from utils.simhash import Simhash
 
 default_host = 'localhost'
 default_port = 27017
@@ -13,7 +15,7 @@ default_db_name = '%(spider)s'
 default_collection_name = '%(spider)s:items'
 
 
-class MongodbPipeline(object):
+class MongodbPipeline:
     def __init__(self,
                 url,
                 host = default_host,
@@ -76,4 +78,27 @@ class MongodbPipeline(object):
 
     def _process_item_thread(self, item):
         self.db[self.collection_name].insert_one(item)
+        return item
+
+
+class DuplicatesPipeline:
+    """Validate item similarity by simhash and reject item that
+    similarity greater than specify limit
+    """
+
+    def __init__(self):
+        self.simhash_set = set()
+
+    # TODO not efficient
+    def process_item(self, item, spider):
+        if item['simhash'] in self.simhash_set:
+            raise DropItem("Duplicate item found : %s" % item)
+
+        else:
+            simhash = Simhash(item['simhash'])
+            for other in self.simhash_set:
+                if simhash.is_equal(other):
+                    raise DropItem("Similarity high of the item : %s" % item)
+            
+        self.simhash_set.add(item['simhash'])
         return item
