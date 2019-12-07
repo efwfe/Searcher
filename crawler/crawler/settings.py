@@ -99,6 +99,10 @@ ITEM_PIPELINES = {
     'crawler.pipelines.MongodbPipeline' : 300
 }
 
+EXTENSIONS= {
+        # 'crawler.extensions.SendEmailExtension': 400,
+}
+
 # the item pipeline serializes and stores the items in this mongodb collection
 MONGODB_COLLECTION_NAME="%(spider)s:items"
 
@@ -144,6 +148,33 @@ SCHEDULER_PERSIST = True
 # and may also block the same time when your spider start at the first time (because the queue is empty).
 # SCHEDULER_IDLE_BEFORE_CLOSE = 10
 
+# Sender email to use (From: header) for sending emails.
+# MAIL_FROM = 'your email'
+
+# MAIL_TO = ['receiver's email',]
+
+# SMTP host to use for sending emails.
+# If your email is proxy so you must write host of the proxy.
+# MAIL_HOST = 'localhost'
+
+# SMTP port to use for sending emails.
+# If your email is proxy so you must write port of the proxy.
+# MAIL_PORT = 25
+
+# User to use for SMTP authentication. If disabled no SMTP authentication will be performed.
+# MAIL_USER = ''
+
+# Password to use for SMTP authentication, along with MAIL_USER.
+# If your email is proxy so you must apply for the authentication code.
+# MAIL_PASS = ''
+
+# Enforce using STARTTLS. STARTTLS is a way to take an existing insecure connection,
+# and upgrade it to a secure connection using SSL/TLS.
+# MAIL_TLS = False
+
+# Enforce connecting using an SSL encrypted connection
+# MAIL_SSL = False
+
 # Specify the host and port to use when connecting to Redis (optional).
 REDIS_HOST = 'localhost'
 REDIS_PORT = 6379
@@ -168,3 +199,4 @@ REDIS_START_URLS_KEY = '%(name)s:start_urls'
 
 # Use other encoding than utf-8 for redis.
 # REDIS_ENCODING = 'latin1'
+
