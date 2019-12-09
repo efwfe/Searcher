@@ -99,13 +99,14 @@ class ScrapydAgent:
             url, method_type=method, data=data, return_type=http_utils.RETURN_JSON)
         return response
 
-    def schedule(self, project_name, spider_name, setting=None, job_id=None, version=None, args={}):
+    def schedule(self, project_name, spider_name, priority=0, setting=None, job_id=None, version=None, args={}):
         """
         Schedule a spider run , return job id
         """
         url, method = self.command_set["schedule"]
         data = {}
         data["project"] = project_name
+        data["priority"] = priority
         data["spider"] = spider_name
         if setting is not None:
             data["setting"] = setting
@@ -197,7 +198,7 @@ class ScrapydAgent:
         return response
 
 
-    def get_logs_urls(self, project_name, spider_name):
+    def get_logs(self, project_name, spider_name):
         """
         Get urls that scrapd logs file by project name and spider name
         """
@@ -205,6 +206,6 @@ class ScrapydAgent:
         url = url + "/" +spider.name + "/"
         response = http_utils.request(url, method_type = method)
         html_parser = ScrapyLogsPageHTMLParser()
-        html_parser.feed(response)~
+        html_parser.feed(response)
         html_parser.clean_enter_sign()
-        return [url + x for x in html_parser.result]
+        return html_parser.result, [url + x for x in html_parser.result]

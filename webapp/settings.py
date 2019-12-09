@@ -8,6 +8,7 @@ class Config(object):
     SCRAPYD_URL = 'http://localhost:6800/'
     ENABLE_CACHE = True
     CACHE_EXPIRE = 3 * 60
+    
 
 
 
