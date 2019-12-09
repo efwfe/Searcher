@@ -3,8 +3,22 @@ import logging
 from scrapyd.model import DaemonStatus, AddVersionResultSet, ScheduleResultSet, CancelResultSet, ProjectList, \
     VersionList, SpiderList, JobList, DeleteProjectVersionResultSet, DeleteProjectResultSet
 from utils import http_utils
+from html.parser import HTMLParser
 
 logging = logging.getLogger(__name__)
+
+
+class ScrapyLogsPageHTMLParser(HTMLParser):
+    result = []
+
+    def handle_data(self, data):
+        if self.lasttage == "a":
+            self.result.append(data)
+
+    def clean_enter_sign(self):
+        for x in self.result:
+            if x.startswith("\n"):
+                self.result.remove(x)
 
 
 class ScrapyCommandSet(dict):
@@ -54,7 +68,7 @@ class ScrapyCommandSet(dict):
                               'delversion.json', http_utils.METHOD_POST]
         self["delproject"] = [scrapyd_url +
                               'delproject.json', http_utils.METHOD_POST]
-
+        self["logs"] =[scrapyd_url + "logs/", http_utils.METHOD_GET]
 
 class ScrapydAgent:
     def __init__(self, scrapyd_url):
@@ -181,3 +195,16 @@ class ScrapydAgent:
         response = http_utils.request(
             url, method_type=method, data=data, return_type=http_utils.RETURN_JSON)
         return response
+
+
+    def get_logs_urls(self, project_name, spider_name):
+        """
+        Get urls that scrapd logs file by project name and spider name
+        """
+        url, method = self.command_set["logs"]
+        url = url + "/" +spider.name + "/"
+        response = http_utils.request(url, method_type = method)
+        html_parser = ScrapyLogsPageHTMLParser()
+        html_parser.feed(response)~
+        html_parser.clean_enter_sign()
+        return [url + x for x in html_parser.result]
