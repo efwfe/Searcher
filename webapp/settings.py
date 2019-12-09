@@ -5,6 +5,8 @@ class Config(object):
     PORT = 5000
     ADMIN_USERNAME = 'admin'
     ADMIN_PASSWORD = 123456
+    SCRAPYD_URL = 'http://localhost:6800/'
+
 
 
 class ProductionConfig(Config):

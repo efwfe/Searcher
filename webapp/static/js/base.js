@@ -1,6 +1,6 @@
 function logout() {
     $.ajax({
-        url: "/logout",
+        url: "/supervisor/user/logout",
         type: "POST"
     });
 }
